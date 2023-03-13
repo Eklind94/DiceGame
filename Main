@@ -1,0 +1,123 @@
+//Johannes Eklind - Dice Game
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+    //Declaring variables and creating object Scanner
+        final int NUMBER_TWELVE = 12;
+        int dice1 = 0;
+        int dice2 = 0;
+        int dice3 = 0;
+        int sum;
+        int win = 0;
+        int loss = 0;
+        boolean dice1IsRolled = false;
+        boolean dice2IsRolled = false;
+        boolean dice3IsRolled = false;
+        String choice;
+        String sentinel = "q";
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Welcome to dice game 12. You must roll 1-3 dice and try to get the sum of 12");
+
+//        while loop that keeps looping the game
+        while (true) {
+
+            //Asks user for input and registers input
+            System.out.print("Enter which dice you want to roll [1,2,3] (exit with q):");
+            choice = input.next();
+
+            //ends program if user inputs 'q'.
+            if (choice.equals(sentinel)){
+                System.out.printf("#win: %d #loss: %d%n",win,loss);
+                System.out.println("Bye!");
+                System.exit(0);
+            }
+
+            //Tries to roll dices. Checks whether the dices have been rolled already.
+            try{
+                //if input is 1 and dice has not been rolled this round, dice 1 is rolled
+                if (Integer.parseInt(choice) == 1) {
+                    if (!dice1IsRolled) {
+                        dice1 = (int) (Math.random() * 6) + 1;
+                        dice1IsRolled = true;
+                    } else {
+                        System.out.println("You have already thrown that dice, try again");
+                    } }
+
+                //if input is 2 and dice has not been rolled this round, dice 2 is rolled
+                else if (Integer.parseInt(choice) == 2) {
+                    if (!dice2IsRolled) {
+                        dice2 = (int) (Math.random() * 6) + 1;
+                        dice2IsRolled = true;
+                    } else {
+                        System.out.println("You have already thrown that dice, try again");
+                    } }
+
+                //if input is 3 and dice has not been rolled this round, dice 3 is rolled
+                else if (Integer.parseInt(choice) == 3) {
+                    if (!dice3IsRolled) {
+                        dice3 = (int) (Math.random() * 6) + 1;
+                        dice3IsRolled = true;
+                    }else {
+                        System.out.println("You have already thrown that dice, try again");
+                    } }
+
+                //if another number is submitted - Not valid input.
+                else{
+                System.out.println("Not valid input.Try again. Valid entries are 1, 2, 3, and q.");
+                continue;
+                    }
+            }
+            //if another string is submitted - Not valid input.
+            catch (NumberFormatException e){
+                System.out.println("Not valid input.Try again. Valid entries are 1, 2, 3, and q.");
+                continue;
+            }
+
+            //Calculates the current sum
+            sum = dice1 + dice2 + dice3;
+
+            //if all 3 dices have been rolled - win/loss/neither is calculated
+            if (dice1IsRolled && dice2IsRolled && dice3IsRolled){
+
+                //if total is 12, win is increased.
+                if (sum == NUMBER_TWELVE){
+                    win++;
+                    System.out.printf("[%d] [%d] [%d] sum:%d #win: %d #loss: %d%n", dice1, dice2, dice3,sum,win,loss);
+                    System.out.println("You won! Gz, well played!");
+                }
+
+                //if total is over 12,  loss is increased.
+                else if (sum > NUMBER_TWELVE){
+                    loss++;
+                    System.out.printf("[%d] [%d] [%d] sum:%d #win: %d #loss: %d%n", dice1, dice2, dice3,sum,win,loss);
+                    System.out.println("You lost...");
+                }
+
+                //if all dices have been thrown and total is below 12
+                else {
+                    System.out.printf("[%d] [%d] [%d] sum:%d #win: %d #loss: %d%n", dice1, dice2, dice3,sum,win,loss);
+                    System.out.println("You neither won nor lost this round");
+                }
+                //variables are reset.
+                dice1 = 0;
+                dice2 = 0;
+                dice3 = 0;
+                dice1IsRolled = false;
+                dice2IsRolled = false;
+                dice3IsRolled = false;
+                System.out.println();
+                System.out.println("New round!");
+                System.out.println();
+            }
+
+            // if not all dices have been thrown
+            else {
+                System.out.printf("[%d] [%d] [%d] sum:%d #win: %d #loss: %d%n", dice1, dice2, dice3,sum,win,loss);
+            }
+        }//end while loop
+    }//main
+} //end Class
